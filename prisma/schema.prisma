@@ -10,20 +10,67 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model _ {
-//   id Int @id @default(autoincrement())
-// }
-
 model Users {
   id Int @id @default(autoincrement())
   email String @unique 
   password String 
+  credentials Credentials[]
+  notes Notes[]
+  cards Cards[]
+  networks Networks[]
 }
 
 model Credentials {
   id Int @id @default(autoincrement())
   url String 
-  title String @unique 
+  title String 
   username String 
   password String 
+  owner Users @relation(fields: [ownerId], references: [id])
+  ownerId Int
+  createdAt DateTime @default(now()) 
+
+  @@unique([ownerId, title])
+}
+
+model Notes {
+  id Int @id @default(autoincrement())
+  title String 
+  description String 
+  owner Users @relation(fields: [ownerId], references: [id])
+  ownerId Int
+  createdAt DateTime @default(now()) 
+
+  @@unique([ownerId, title])
+}
+
+model Cards {
+  id Int @id @default(autoincrement())
+  title String 
+  cardholderName String
+  number String 
+  expirationDate String
+  password String
+  CVV String
+  type Types
+  owner Users @relation(fields: [ownerId], references: [id])
+  ownerId Int
+  createdAt DateTime @default(now()) 
+
+  @@unique([ownerId, title])
+}
+
+model Networks {
+  id Int @id @default(autoincrement())
+  title String 
+  password String 
+  owner Users @relation(fields: [ownerId], references: [id])
+  ownerId Int
+  createdAt DateTime @default(now()) 
+}
+
+enum Types {
+  credit
+  debit
+  full
 }

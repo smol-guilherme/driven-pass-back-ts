@@ -22,21 +22,17 @@ function setSchema(objectData: Object): string {
   for (let i = 0; i < keys.length; i++) {
     switch (keys[i]) {
       case "number":
-        return "onlinePayments";
-      case "cardId":
-        if(keys.length !== 1) break;
-        return "cardHistory";
-      case "type":
-        return "cardType";
+        return "cardSchema";
       case "id":
-        return "companyId";
-      case "CVV":
-        return "workerCard";
+        if(keys.length !== 1) break;
+        return "idSchema";
+      case "description":
+        return "notesSchema";
       case "password":
         if (keys.includes("repeatPassword")) return "registrySchema";
         return "loginSchema";
-      case "amount":
-        return "cardLoad";
+      case "name":
+        return "wifiSchema";
       default:
         break;
     }

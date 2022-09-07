@@ -1,5 +1,9 @@
 import Joi from "joi";
 
+export const idSchema = Joi.object({
+  id: Joi.number().required(),
+});
+
 export const registrySchema = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().min(10).required(),
@@ -31,7 +35,6 @@ export const cardSchema = Joi.object({
   password: Joi.string().pattern(/[0-9]{4}/).required(), 
   CVV: Joi.string().pattern(/[0-9]{3}/).required(), 
   type: Joi.string().valid('credit', 'debit', 'full').required(),
-  description: Joi.string().max(1000).required() 
 });
 
 export const wifiSchema = Joi.object({
