@@ -1,9 +1,9 @@
-import { IUserInsert } from "../services/authServices";
+import { IUserInsertOrLogin } from "../services/authServices";
 
 export async function findByEmail(email: string) {
-  return;
+  return IUserInsertOrLogin;
 }
 
-export async function insert(data: IUserInsert) {
+export async function insert(data: IUserInsertOrLogin) {
   return;
 }

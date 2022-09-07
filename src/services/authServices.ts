@@ -1,5 +1,5 @@
 import * as auth from "../repositories/authRepositories";
-import { passwordEncrypt } from "../utils/encryptionUtils";
+import { passwordAuth, passwordEncrypt } from "../utils/encryptionUtils";
 
 export interface IUserRegistry {
   email: string;
@@ -7,10 +7,10 @@ export interface IUserRegistry {
   repeatPassword: string;
 }
 
-export type IUserInsert = Omit<IUserRegistry, "repeatPassword">;
+export type IUserInsertOrLoginOrLogin = Omit<IUserRegistry, "repeatPassword">;
 
 export async function registerRoutine(userData: IUserRegistry) {
-  await isUserRegistered(userData.email);
+  await isUserRegistered(userData.email, false);
   const bcryptPassword = passwordEncrypt(userData.password);
   userData.password = bcryptPassword;
   delete userData.repeatPassword;
@@ -18,8 +18,15 @@ export async function registerRoutine(userData: IUserRegistry) {
   return { data: 'hello' };
 }
 
-async function isUserRegistered(data: string) {
+async function isUserRegistered(data: string, isLogin: boolean) {
   const response = await auth.findByEmail(data);
-  if(response !== undefined) throw { type: 'registry_conflict', message: 'e-mail address is already in use' };
-  return;
+  if(!isLogin && response !== undefined) throw { type: 'registry_conflict', message: 'e-mail address is already in use' };
+  if(isLogin && response === undefined) throw { type: 'not_found', message: 'email invalid or not found' };
+  return response;
+}
+
+export async function authenticationRoutine(userData: IUserInsertOrLoginOrLogin) {
+  const credentials = await isUserRegistered(userData.email, true);
+  const token = passwordAuth(userData, credentials.password);
+  return { token };
 }
