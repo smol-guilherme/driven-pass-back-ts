@@ -3,6 +3,9 @@ import { newCredentialsRoutine } from "../services/credentialServices.js";
 
 export async function newCredentials(req: Request, res: Response) {
   const { authorization } = req.headers;
+  authorization.replace("Bearer ", "");
+  console.log(authorization);
+  
   const response = await newCredentialsRoutine(req.body, authorization)
   res.status(201).send(response);
   return;
