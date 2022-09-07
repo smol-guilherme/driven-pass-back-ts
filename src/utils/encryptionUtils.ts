@@ -3,8 +3,6 @@ import "dotenv/config";
 import { IUserInsertOrLoginOrLogin } from "../services/authServices";
 import { emitToken } from "./tokenUtils";
 
-const B_SECRET: string = process.env.ENCRYPTION_SECRET;
-
 export function passwordEncrypt(rawData: string) {
   return bcrypt.hashSync(rawData, 10);
 }

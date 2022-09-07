@@ -7,7 +7,7 @@ export interface IUserRegistry {
   repeatPassword: string;
 }
 
-export type IUserInsertOrLoginOrLogin = Omit<IUserRegistry, "repeatPassword">;
+export type IUserInsertOrLogin = Omit<IUserRegistry, "repeatPassword">;
 
 export async function registerRoutine(userData: IUserRegistry) {
   await isUserRegistered(userData.email, false);
@@ -25,7 +25,7 @@ async function isUserRegistered(data: string, isLogin: boolean) {
   return response;
 }
 
-export async function authenticationRoutine(userData: IUserInsertOrLoginOrLogin) {
+export async function authenticationRoutine(userData: IUserInsertOrLogin) {
   const credentials = await isUserRegistered(userData.email, true);
   const token = passwordAuth(userData, credentials.password);
   return { token };
