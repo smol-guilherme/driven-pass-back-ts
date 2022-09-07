@@ -1,5 +1,5 @@
-import { findTitleByEmail } from "../repositories/credentialRepositories";
-import { validateToken } from "../utils/tokenUtils";
+import { findTitleByEmail } from "../repositories/credentialRepositories.js";
+import { validateToken } from "../utils/tokenUtils.js";
 
 
 export interface ICredInsert {

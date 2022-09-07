@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import * as schemas from "./schemas/dataSchemas";
+import * as schemas from "./schemas/dataSchemas.js";
 
 export default async function validateData(
   req: Request,
@@ -33,9 +33,8 @@ function setSchema(objectData: Object): string {
       case "CVV":
         return "workerCard";
       case "password":
-        if (keys.includes("businessId")) return "payments";
-        if (keys.includes("amount")) return "cardLoad";
-        return "cardBlock";
+        if (keys.includes("repeatPassword")) return "registrySchema";
+        return "loginSchema";
       case "amount":
         return "cardLoad";
       default:

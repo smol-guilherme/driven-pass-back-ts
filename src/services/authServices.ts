@@ -1,5 +1,7 @@
-import * as auth from "../repositories/authRepositories";
-import { passwordAuth, passwordEncrypt } from "../utils/encryptionUtils";
+import * as auth from "../repositories/authRepositories.js";
+import { Users } from "@prisma/client";
+import { passwordAuth } from "../utils/encryptionUtils.js";
+import { passwordFormat } from "../utils/dataUtils.js";
 
 export interface IUserRegistry {
   email: string;
@@ -7,25 +9,24 @@ export interface IUserRegistry {
   repeatPassword: string;
 }
 
-export type IUserInsertOrLogin = Omit<IUserRegistry, "repeatPassword">;
+export type UserInsertOrLogin = Omit<Users, "id">;
 
 export async function registerRoutine(userData: IUserRegistry) {
   await isUserRegistered(userData.email, false);
-  const bcryptPassword = passwordEncrypt(userData.password);
-  userData.password = bcryptPassword;
-  delete userData.repeatPassword;
-  await auth.insert(userData);
-  return { data: 'hello' };
+  passwordFormat(userData);
+  const callback = await auth.insert(userData);
+  if(callback === null) throw { type: 'registry_conflict', message: 'e-mail address is already in use' };
+  return;
 }
 
 async function isUserRegistered(data: string, isLogin: boolean) {
   const response = await auth.findByEmail(data);
-  if(!isLogin && response !== undefined) throw { type: 'registry_conflict', message: 'e-mail address is already in use' };
-  if(isLogin && response === undefined) throw { type: 'not_found', message: 'email invalid or not found' };
+  if(!isLogin && response !== null) throw { type: 'registry_conflict', message: 'e-mail address is already in use' };
+  if(isLogin && response === null) throw { type: 'not_found', message: 'email invalid or not found' };
   return response;
 }
 
-export async function authenticationRoutine(userData: IUserInsertOrLogin) {
+export async function authenticationRoutine(userData: UserInsertOrLogin) {
   const credentials = await isUserRegistered(userData.email, true);
   const token = passwordAuth(userData, credentials.password);
   return { token };

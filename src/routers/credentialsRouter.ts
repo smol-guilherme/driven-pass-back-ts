@@ -1,4 +1,3 @@
-
 import { Router, Request, Response } from "express";
 import clearData from "../middlewares/stringStripMiddleware.js";
 import validateData from "../middlewares/validateMiddleware.js";

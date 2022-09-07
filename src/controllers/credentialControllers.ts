@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { newCredentialsRoutine } from "../services/credentialServices";
+import { newCredentialsRoutine } from "../services/credentialServices.js";
 
 export async function newCredentials(req: Request, res: Response) {
   const { authorization } = req.headers;
