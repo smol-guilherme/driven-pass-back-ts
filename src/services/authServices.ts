@@ -28,6 +28,6 @@ async function isUserRegistered(data: string, isLogin: boolean) {
 
 export async function authenticationRoutine(userData: UserInsertOrLogin) {
   const credentials = await isUserRegistered(userData.email, true);
-  const token = passwordAuth(userData, credentials.password);
+  const token = passwordAuth(userData, credentials);
   return { token };
 }

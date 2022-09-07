@@ -24,10 +24,12 @@ function setSchema(objectData: Object): string {
       case "number":
         return "cardSchema";
       case "id":
-        if(keys.length !== 1) break;
+        if (keys.length !== 1) break;
         return "idSchema";
       case "description":
         return "notesSchema";
+      case "url":
+        return "credentialsSchema";
       case "password":
         if (keys.includes("repeatPassword")) return "registrySchema";
         return "loginSchema";

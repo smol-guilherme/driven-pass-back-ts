@@ -26,9 +26,9 @@ model Credentials {
   title String 
   username String 
   password String 
-  owner Users @relation(fields: [ownerId], references: [id])
+  owner Users? @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   ownerId Int
-  createdAt DateTime @default(now()) 
+  createdAt DateTime? @default(now()) 
 
   @@unique([ownerId, title])
 }
