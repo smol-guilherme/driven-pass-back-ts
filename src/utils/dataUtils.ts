@@ -1,9 +1,8 @@
-import { IUserRegistry } from "../services/authServices.js";
+import { IRegistryBody } from "../services/authServices.js";
 import { passwordEncrypt } from "./encryptionUtils.js";
 
-export function passwordFormat(userData: IUserRegistry) {
+export function passwordFormat(userData: IRegistryBody) {
   const bcryptPassword = passwordEncrypt(userData.password);
   userData.password = bcryptPassword;
-  delete userData.repeatPassword;
   return;
 }

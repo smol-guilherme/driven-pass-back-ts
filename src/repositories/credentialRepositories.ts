@@ -23,5 +23,5 @@ export async function findById(itemId: number, userId: number) {
 }
 
 export async function findAllByUserId(userId: number) {
-  return await prisma.credentials.findMany({ where: { ownerId: userId }});
+  return await prisma.credentials.findMany({ where: { ownerId: userId } });
 }
