@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   deleteCredentials,
+  getSingleCredential,
   listCredentials,
   newCredentials,
 } from "../controllers/credentialControllers.js";
@@ -21,7 +22,8 @@ credentialsRouter.get(
   "/credentials/:id",
   clearData,
   validateData,
-  validateToken
+  validateToken,
+  getSingleCredential
 );
 credentialsRouter.post(
   "/credentials",

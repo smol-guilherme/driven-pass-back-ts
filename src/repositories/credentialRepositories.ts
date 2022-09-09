@@ -1,5 +1,9 @@
+import { Credentials } from "@prisma/client";
 import { prisma } from "../database/database.js";
-import { CredentialsInsert } from "../services/credentialServices.js";
+import {
+  CredentialsInsert,
+  ICredentialsSearchResult,
+} from "../services/credentialServices.js";
 
 export async function findTitleById(id: number, title: string) {
   return await prisma.credentials.findFirst({ where: { id, title } });
@@ -16,12 +20,17 @@ export async function remove(itemId: number, userId: number) {
   });
 }
 
-export async function findById(itemId: number, userId: number) {
-  return await prisma.credentials.findFirst({
-    where: { ownerId: userId, id: itemId },
+export async function findById(
+  itemId: number,
+  userId: number
+): Promise<Credentials> {
+  return await prisma.credentials.findUniqueOrThrow({
+    where: { ownerId_id: { ownerId: userId, id: itemId } },
   });
 }
 
-export async function findAllByUserId(userId: number) {
-  return await prisma.credentials.findMany({ where: { ownerId: userId } });
+export async function findAllByUserId(userId: number): Promise<Credentials[]> {
+  return await prisma.credentials.findMany({
+    where: { ownerId: userId },
+  });
 }

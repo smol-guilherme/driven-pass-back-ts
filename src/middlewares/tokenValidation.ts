@@ -9,7 +9,7 @@ export function validateToken(req: Request, res: Response, next: NextFunction) {
   const token: string | undefined = authorization?.replace("Bearer ", "");
   if (!token) return res.status(401).send();
   jwt.verify(token!, J_SECRET, (error, decoded) => {
-    if (error !== null) return res.status(401).send();
+    if (error !== null) throw { type: "authentication_error" };
     res.locals.id = decoded;
   });
   next();
