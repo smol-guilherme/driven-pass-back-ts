@@ -10,10 +10,6 @@ export function encryptSensitiveInfo(data: CredentialsInsert) {
 }
 
 export function decryptSensitiveInfo(data: Credentials[]) {
-  console.log(data);
-  
   const processedData = data.map(item => item.password = cryptr.decrypt(item.password));
-  console.log(processedData);
-  
   return processedData;
 }

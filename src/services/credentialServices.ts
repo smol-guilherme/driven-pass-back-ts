@@ -1,9 +1,10 @@
-import { findAllByUserId, findTitleById, insert } from "../repositories/credentialRepositories.js";
+import { findAllByUserId, findTitleById, insert, remove } from "../repositories/credentialRepositories.js";
 import { validateToken } from "../utils/tokenUtils.js";
 import { Credentials } from "@prisma/client";
 import { decryptSensitiveInfo, encryptSensitiveInfo } from "./encryptionServices.js";
 
 export type CredentialsInsert = Omit<Credentials, "id" | "owner" | "createdAt">
+export type CredentialsId = { id: number };
 
 export async function newCredentialsRoutine(credentialData: CredentialsInsert, token: string) {
   const id = validateToken(token);
@@ -20,10 +21,14 @@ async function checkForDuplicateTitles(id: number, credentialsTitle: string) {
 }
 
 export async function listCredentialsRoutine(token: string) {
-  console.log('list');
-  
   const id = validateToken(token);
   const data = await findAllByUserId(id);
   const decryptInfo = decryptSensitiveInfo(data);
   return decryptInfo;
+}
+
+export async function deleteCredentialsRoutine(itemId: CredentialsId, token: string) {
+  const id = validateToken(token);
+  const response = await remove(itemId.id, id);
+  return response;
 }

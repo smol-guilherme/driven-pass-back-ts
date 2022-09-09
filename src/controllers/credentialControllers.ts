@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { listCredentialsRoutine, newCredentialsRoutine } from "../services/credentialServices.js";
+import { deleteCredentialsRoutine, listCredentialsRoutine, newCredentialsRoutine } from "../services/credentialServices.js";
 
 export async function newCredentials(req: Request, res: Response) {
   const token = req.headers.authorization.replace("Bearer ", "");
@@ -18,5 +18,12 @@ export async function listCredentials(req: Request, res: Response) {
   const token = req.headers.authorization.replace("Bearer ", "");
   const response = await listCredentialsRoutine(token);
   res.status(200).send(response);
+  return;
+}
+
+export async function deleteCredentials(req: Request, res: Response) {
+  const token = req.headers.authorization.replace("Bearer ", "");
+  const response = await deleteCredentialsRoutine(req.body, token);
+  res.status(204).send();
   return;
 }
