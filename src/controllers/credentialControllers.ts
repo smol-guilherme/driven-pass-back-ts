@@ -12,12 +12,6 @@ export async function newCredentials(req: Request, res: Response) {
   return;
 }
 
-export async function authenticateUser(req: Request, res: Response) {
-  const { id } = res.locals.id;
-  // res.status(200).send(response);
-  return;
-}
-
 export async function listCredentials(req: Request, res: Response) {
   const { id } = res.locals.id;
   const response = await listCredentialsRoutine(id);

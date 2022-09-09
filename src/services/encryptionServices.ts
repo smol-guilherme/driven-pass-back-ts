@@ -10,8 +10,11 @@ export function encryptSensitiveInfo(data: CredentialsInsert) {
 }
 
 export function decryptSensitiveInfo(data: Credentials[]) {
-  const processedData = data.map(
-    (item) => (item.password = cryptr.decrypt(item.password))
-  );
-  return processedData;
+  data.forEach((item) => {
+    item.password = cryptr.decrypt(item.password);
+  });
+
+  console.log(data);
+
+  return data;
 }

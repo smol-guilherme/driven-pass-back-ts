@@ -8,7 +8,7 @@ export function validateToken(req: Request, res: Response, next: NextFunction) {
   const { authorization } = req.headers;
   const token: string | undefined = authorization?.replace("Bearer ", "");
   if (!token) return res.status(401).send();
-  const verifyCallback = jwt.verify(token!, J_SECRET, (error, decoded) => {
+  jwt.verify(token!, J_SECRET, (error, decoded) => {
     if (error !== null) return res.status(401).send();
     res.locals.id = decoded;
   });

@@ -10,9 +10,26 @@ import validateData from "../middlewares/validateMiddleware.js";
 
 const credentialsRouter = Router();
 
-credentialsRouter.get("/credentials", clearData, validateData, listCredentials);
-credentialsRouter.get("/credentials/:id", clearData, validateData);
-credentialsRouter.post("/credentials", clearData, validateData, newCredentials);
+credentialsRouter.get(
+  "/credentials",
+  clearData,
+  validateData,
+  validateToken,
+  listCredentials
+);
+credentialsRouter.get(
+  "/credentials/:id",
+  clearData,
+  validateData,
+  validateToken
+);
+credentialsRouter.post(
+  "/credentials",
+  clearData,
+  validateData,
+  validateToken,
+  newCredentials
+);
 credentialsRouter.delete(
   "/credentials/:id",
   clearData,
