@@ -25,7 +25,9 @@ export async function newCredentialsRoutine(
   userId: number
 ) {
   await checkForDuplicateTitles(userId, credentialData.title);
-  encryptSensitiveInfo(credentialData);
+  encryptSensitiveInfo(credentialData.password);
+  console.log(credentialData);
+
   await insert(credentialData, userId);
   return;
 }
@@ -47,6 +49,7 @@ export async function listCredentialsRoutine(userId: number) {
 export async function getCredentialByIdRoutine(itemId: number, userId: number) {
   const data = await findById(itemId, userId);
   if (data === null) return [];
+  if (data.ownerId !== userId) throw { type: "authentication_error" };
   removeUnnecessaryKeys(data);
   const decryptInfo = decryptSingleInfo(data);
   return decryptInfo;

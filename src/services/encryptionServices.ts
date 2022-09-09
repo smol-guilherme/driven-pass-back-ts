@@ -6,9 +6,9 @@ import {
 
 const cryptr = new Cryptr(process.env.ENCRYPTION_SECRET!);
 
-export function encryptSensitiveInfo(data: CredentialsInsert) {
-  data.password = cryptr.encrypt(data.password);
-  return data;
+export function encryptSensitiveInfo(data: string) {
+  cryptr.encrypt(data);
+  return;
 }
 
 export function decryptSensitiveInfo(data: ICredentialsSearchResult[]) {
