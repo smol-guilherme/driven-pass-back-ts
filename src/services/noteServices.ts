@@ -13,8 +13,6 @@ export type INotesSearchResult = Omit<Notes, "createdAt" | "ownerId">;
 export type NotesId = { id: number };
 
 export async function newNotesRoutine(noteData: NotesInsert, userId: number) {
-  console.log("here");
-
   await checkForDuplicateTitles(userId, noteData.title);
   await insert(noteData, userId);
   return;
@@ -34,7 +32,7 @@ export async function listNotesRoutine(userId: number) {
 }
 
 export async function getNoteByIdRoutine(itemId: number, userId: number) {
-  const data = await findById(itemId, userId);
+  const data = await findById(itemId);
   if (data === null) return [];
   if (data.ownerId !== userId) throw { type: "authentication_error" };
   removeUnnecessaryKeys(data);

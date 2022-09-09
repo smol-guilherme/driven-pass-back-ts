@@ -21,10 +21,7 @@ export async function softFindById(itemId: number) {
   return await prisma.notes.findFirst({ where: { id: itemId } });
 }
 
-export async function findById(
-  itemId: number,
-  userId: number
-): Promise<Notes | null> {
+export async function findById(itemId: number): Promise<Notes | null> {
   return await prisma.notes.findUnique({
     where: { id: itemId },
   });

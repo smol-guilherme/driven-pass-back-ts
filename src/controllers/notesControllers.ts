@@ -8,8 +8,6 @@ import {
 
 export async function newNotes(req: Request, res: Response) {
   const { id } = res.locals.id;
-  console.log("right route");
-
   const response = await newNotesRoutine(req.body, id);
   res.status(201).send(response);
   return;

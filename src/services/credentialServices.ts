@@ -9,15 +9,10 @@ import {
 import { Credentials } from "@prisma/client";
 import {
   decryptSensitiveInfo,
-  decryptSingleInfo,
   encryptSensitiveInfo,
 } from "./encryptionServices.js";
 
 export type CredentialsInsert = Omit<Credentials, "id" | "owner" | "createdAt">;
-export type ICredentialsSearchResult = Omit<
-  Credentials,
-  "createdAt" | "ownerId"
->;
 export type CredentialsId = { id: number };
 
 export async function newCredentialsRoutine(
@@ -25,9 +20,7 @@ export async function newCredentialsRoutine(
   userId: number
 ) {
   await checkForDuplicateTitles(userId, credentialData.title);
-  encryptSensitiveInfo(credentialData.password);
-  console.log(credentialData);
-
+  credentialData.password = encryptSensitiveInfo(credentialData.password);
   await insert(credentialData, userId);
   return;
 }
@@ -42,8 +35,8 @@ async function checkForDuplicateTitles(id: number, credentialsTitle: string) {
 export async function listCredentialsRoutine(userId: number) {
   const data: Credentials[] = await findAllByUserId(userId);
   data.map((item) => removeUnnecessaryKeys(item));
-  const decryptInfo = decryptSensitiveInfo(data);
-  return decryptInfo;
+  data.forEach((item) => (item.password = decryptSensitiveInfo(item.password)));
+  return data;
 }
 
 export async function getCredentialByIdRoutine(itemId: number, userId: number) {
@@ -51,8 +44,8 @@ export async function getCredentialByIdRoutine(itemId: number, userId: number) {
   if (data === null) return [];
   if (data.ownerId !== userId) throw { type: "authentication_error" };
   removeUnnecessaryKeys(data);
-  const decryptInfo = decryptSingleInfo(data);
-  return decryptInfo;
+  data.password = decryptSensitiveInfo(data.password);
+  return data;
 }
 
 export async function deleteCredentialsRoutine(itemId: number, userId: number) {

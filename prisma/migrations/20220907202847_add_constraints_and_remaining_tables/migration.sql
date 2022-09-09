@@ -27,7 +27,7 @@ CREATE TABLE "Notes" (
 );
 
 -- CreateTable
-CREATE TABLE "Cards" (
+CREATE TABLE "Documents" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
     "cardholderName" TEXT NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE "Cards" (
     "ownerId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "Cards_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Documents_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -57,7 +57,7 @@ CREATE TABLE "Networks" (
 CREATE UNIQUE INDEX "Notes_ownerId_title_key" ON "Notes"("ownerId", "title");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Cards_ownerId_title_key" ON "Cards"("ownerId", "title");
+CREATE UNIQUE INDEX "Documents_ownerId_title_key" ON "Documents"("ownerId", "title");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Credentials_ownerId_title_key" ON "Credentials"("ownerId", "title");
@@ -69,7 +69,7 @@ ALTER TABLE "Credentials" ADD CONSTRAINT "Credentials_ownerId_fkey" FOREIGN KEY 
 ALTER TABLE "Notes" ADD CONSTRAINT "Notes_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Cards" ADD CONSTRAINT "Cards_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Documents" ADD CONSTRAINT "Documents_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Networks" ADD CONSTRAINT "Networks_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

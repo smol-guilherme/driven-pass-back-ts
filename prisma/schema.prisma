@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Users {
@@ -16,7 +17,7 @@ model Users {
   password    String
   credentials Credentials[]
   notes       Notes[]
-  cards       Cards[]
+  documents   Documents[]
   networks    Networks[]
 }
 
@@ -46,7 +47,7 @@ model Notes {
   @@unique([ownerId, title])
 }
 
-model Cards {
+model Documents {
   id             Int      @id @default(autoincrement())
   title          String
   cardholderName String
@@ -54,6 +55,7 @@ model Cards {
   expirationDate String
   password       String
   CVV            String
+  isVirtual      Boolean
   type           Types
   owner          Users    @relation(fields: [ownerId], references: [id])
   ownerId        Int

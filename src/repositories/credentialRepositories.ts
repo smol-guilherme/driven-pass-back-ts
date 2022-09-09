@@ -1,9 +1,6 @@
 import { Credentials } from "@prisma/client";
 import { prisma } from "../database/database.js";
-import {
-  CredentialsInsert,
-  ICredentialsSearchResult,
-} from "../services/credentialServices.js";
+import { CredentialsInsert } from "../services/credentialServices.js";
 
 export async function findTitleById(id: number, title: string) {
   return await prisma.credentials.findFirst({ where: { id, title } });
