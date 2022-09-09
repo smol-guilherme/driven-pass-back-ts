@@ -4,6 +4,7 @@ import {
   findTitleById,
   insert,
   remove,
+  softFindById,
 } from "../repositories/credentialRepositories.js";
 import { Credentials } from "@prisma/client";
 import {
@@ -45,12 +46,16 @@ export async function listCredentialsRoutine(userId: number) {
 
 export async function getCredentialByIdRoutine(itemId: number, userId: number) {
   const data = await findById(itemId, userId);
+  if (data === null) return [];
   removeUnnecessaryKeys(data);
   const decryptInfo = decryptSingleInfo(data);
   return decryptInfo;
 }
 
 export async function deleteCredentialsRoutine(itemId: number, userId: number) {
+  const data = await softFindById(itemId);
+  if (data === null) throw { type: "not_found_error" };
+  if (data.ownerId !== userId) throw { type: "authentication_error" };
   const response = await remove(itemId, userId);
   return response;
 }

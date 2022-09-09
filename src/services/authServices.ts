@@ -6,12 +6,7 @@ import { passwordFormat } from "../utils/dataUtils.js";
 export interface IRegistryBody {
   email: string;
   password: string;
-  repeatPassword: string;
-}
-
-export interface IUserRegistry {
-  email: string;
-  password: string;
+  repeatPassword?: string;
 }
 
 export type UserInsertOrLogin = Omit<Users, "id">;
@@ -42,6 +37,6 @@ async function isUserRegistered(data: string, isLogin: boolean) {
 
 export async function authenticationRoutine(userData: UserInsertOrLogin) {
   const credentials = await isUserRegistered(userData.email, true);
-  const token = await passwordAuth(userData, credentials);
+  const token = await passwordAuth(userData, credentials!);
   return { token };
 }

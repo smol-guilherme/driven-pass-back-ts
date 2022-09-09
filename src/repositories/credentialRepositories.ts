@@ -20,11 +20,15 @@ export async function remove(itemId: number, userId: number) {
   });
 }
 
+export async function softFindById(itemId: number) {
+  return await prisma.credentials.findFirst({ where: { id: itemId } });
+}
+
 export async function findById(
   itemId: number,
   userId: number
-): Promise<Credentials> {
-  return await prisma.credentials.findUniqueOrThrow({
+): Promise<Credentials | null> {
+  return await prisma.credentials.findUnique({
     where: { ownerId_id: { ownerId: userId, id: itemId } },
   });
 }
