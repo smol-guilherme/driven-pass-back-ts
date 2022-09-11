@@ -67,6 +67,7 @@ model Documents {
 
 model Networks {
   id        Int      @id @default(autoincrement())
+  name      String
   title     String
   password  String
   owner     Users    @relation(fields: [ownerId], references: [id])
