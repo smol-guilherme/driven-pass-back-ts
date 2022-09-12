@@ -124,7 +124,7 @@ O projeto consiste em um serviço de armazenamento seguro de credenciais:
 
 ## DOCUMENTOS
 
-- Para cadastro de uma novo documento, o usuário deve:
+- Para cadastro de um novo documento, o usuário deve:
 
 1. Enviar uma requisição do tipo `POST` na rota `/documents` informando a chave Bearer `token` no cabeçalho (_header_) da requisição.
 2. A requisição de novo documento possui oito parâmetros:
