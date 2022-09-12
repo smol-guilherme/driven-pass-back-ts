@@ -45,7 +45,7 @@ export const cardSchema = Joi.object({
   CVV: Joi.string()
     .pattern(/[0-9]{3}/)
     .required(),
-  type: Joi.string().valid("credit", "debit", "full").required(),
+  type: Joi.string().valid("credit", "debit", "both").required(),
 });
 
 export const wifiSchema = Joi.object({
